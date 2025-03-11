@@ -189,4 +189,73 @@ change guest to admin and false to true, and try to encode it again using its or
 > Decoder output can ve directly encoded/decode with dff encoder, select the new encoder method in the output pane at the bottom, and it will be encoded/decoded.
 
 # Proxying Tools
+An important aspect of using web proxies is enabling the intercept of web request made by commnad-line tools and thich client app.
+This gives us transparency into the web requests made by these app and allows us to utilize all of the diff proxy ft we have used with web app.
+To route all web request made by specific tool through our web proxy tool, we have set them up as the tool's proxy, similary to that we did with our
+browser.
+This secrtion will cover a few examples of how to use web proxies to intercpt web requests made by such tool.
+> [!NOTE]
+> Proxying tools usually slows them down, only proxy tools when you need to investigate their requests, and not for normal usage.
 
+## Proxychains:
+One very useful tool in th Linux is Proxychains, which routes all traffic coming from any command-line tools to any proxy we specify.
+Proxychains adds a proxy to any commnad-line tool and is hence the simplest and ez method to route web traffic of command-line tools through our web proxies.
+/etc/Proxychains.conf.
+```sh
+#socks4     127.0.0.1 9050
+http 127.0.0.1 8080
+```
+We should also enable quit mode to reduce nouse by un-commenting quite_mode. Once we can prepend proxychains to any commnand, and the traffic of that command
+should be routed through Proxychains.
+```sh
+proxychains curl http://SERVER_IP:PORT
+
+ProxyChains-3.1 (http://proxychains.sf.net)
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ping IP</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+...SNIP...
+</html>
+```
+We see that it worked just as it normally would, with the additional Proxychains-3.1 line at the beginning, to note it's begin route throught ProxyChains.
+
+## Nmap:
+Let's try proxy nmap through our web proxy, to find out how to use the proxy configuration for any tools, we can view its manual 'man nmap':`nmap -h | grep -i prox`
+As we can see, we can use the --proxies flag, also add the -Pn flah to skip host discovery, also use the -sC flag to examine.
+` nmap --proxies http://127.0.0.1:8080 SERVER_IP -pPORT -Pn -sC`
+
+## Metaesploit:
+Lest's try to proxy web traffic made by Metaesploit modules to better investigate and debug them, should begin by starting
+Metaesploit with msfconsole.
+We can use [set PROXIES] and try the robots_txt scanner as an example:
+```sh
+msfconsole
+
+msf6 > use auxiliary/scanner/http/robots_txt
+msf6 auxiliary(scanner/http/robots_txt) > set PROXIES HTTP:127.0.0.1:8080
+
+PROXIES => HTTP:127.0.0.1:8080
+
+
+msf6 auxiliary(scanner/http/robots_txt) > set RHOST SERVER_IP
+
+RHOST => SERVER_IP
+
+
+msf6 auxiliary(scanner/http/robots_txt) > set RPORT PORT
+
+RPORT => PORT
+
+
+msf6 auxiliary(scanner/http/robots_txt) > run
+
+[*] Scanned 1 of 1 hosts (100% complete)
+[*] Auxiliary module execution completed
+
+
+```
