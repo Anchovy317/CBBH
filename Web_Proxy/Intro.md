@@ -137,4 +137,56 @@ we want to make exists in the response's body and not in the headars.
 Once we refesh the page with [CTRL+SHIFT+R], see that we can add any input to the input field, and this should persist between page refreshes as well.
 
 # Repeating Request:
+In the previous sections, we bypassing th input validation to use a non-numeric input to reach command injection on the remote server, if we would do this for each command, it
+would take us forever to eneumerate a system, as each command would require  5-6 steps to get executed.
+- Proxy History:[Proxy>HTTP History]
+In ZAP HUB, we can find it the bottom History pane or ZAP's main UI at the bottom History as well.
+Both tools also provide filtering and sorting options for requests history, Try to see how filters work on both tools.
+> [!NOTE]
+> Both tools maintain WebSockets history, which shows all connectction intiated by the web app even after begin loaded, like asysnchornous update and data fetching, WebSockets can be
+> useful when performing advanced web penetration testing, and are out of the scope o this module.
+
+- Repating Requests:
+Burp; once locate the request we want to repeat, we can click [CTRL+R] and navigare to the Repeater tab or click [CTRL+SHIFT+R] to go it directly.
+> [!TIP]
+> We can also right-click on the request select Change Request Method to change the HTTP Method between POST/GET without having to rewrite the entire requests.
+
+Let us to modify our request and send, in all options, we see that the requests are modifiable, and we can select the text want to change and replace it with we want, and
+then click the Senf button:
+![rep](https://academy.hackthebox.com/storage/modules/110/burp_repeat_modify.jpg)
+
+# Encoding/Decoding:
+As we modify asn send custom HTTP requests, we may have to perform varius  tpes of encoding and decoding to interact with the webserver properly.
+
+- URL Encoding:
+It's essential to ensure thaty our request data is URL-encoded and our request headers are correctly set, we may get a server in the response, this
+is why encoding and decoding data becomes essential as we modify and repeat web request.
+ - Spaces: May indicate the end of request data id not encoded
+ - &: Otherwise interpreted as a parameter delimiter.
+ - #: Otherwise interpreted as a fragment identifier.
+
+To URL-encode text in Burp Repeater, we can select that text and right-click on it, then select[Convert>Selection>URL>URL encode key characerts]. or by
+selecting the text and clicking [CTRL+U].
+
+- URL Decoding:
+Is no the only type of encoding we will encounter, is very common for web-app to encode their data, so we should be able quickly decode that data to examine the original text.
+Back-end servers may expected data to be encoded in a particular format or with spacific encoder, se we need able to quickly encode.
+Tools:
+    - HTML
+    - Unicode
+    - Base64
+    - ASCII Hex
+To access the full encoder in burp, we can go to the decoder tab. Decode as > Base64. We can also use the Burp Inspector tool to perform encoding and decoding which
+can be found in varius places like Proxy or Repeater.
+
+- Encoding:
+The text holds the value {"username": "guest", "is_admin": "false"}, if we were performing a penetration test on a web app and find that the cookie holds this value , we may want
+to test modifying it to see changes our user privilege.
+change guest to admin and false to true, and try to encode it again using its original encoding method (base64):
+![Burp](https://academy.hackthebox.com/storage/modules/110/burp_b64_encode.jpg)
+
+> [!TIP]
+> Decoder output can ve directly encoded/decode with dff encoder, select the new encoder method in the output pane at the bottom, and it will be encoded/decoded.
+
+# Proxying Tools
 
