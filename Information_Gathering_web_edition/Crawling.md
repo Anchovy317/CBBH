@@ -136,3 +136,167 @@ The information obtained form the openid-configuration endpoint multiple provide
 3. Supported Scopes and Response type: Undestanding which scope and responde types are supported helps in mapping out funcionality and limitations of the OpenID  connect implementation.
 4. Algorithm Details: information about supp signing algorithms can be crucial for understanding the security measure in place.
 [IANA](https://www.iana.org/assignments/well-known-uris/well-known-uris.xhtml)
+
+# Creepy Crawlies:
+- Popular Web Crawler:
+1. Burpsuite spider: a widely used app testing plataform, includes a powerful active crawlcalled Spider, excels at mapping out web app, Identifying hidden content and uncovering potential vulnerabilities.
+2. OWASP ZAP(Zed Attack proxy): is a free, opensource web app security scanner, it cab be used in automated and manual modes and includes a spider component to crawl web app and identify potential vulnerabilities.
+3. Scrapy(Python): Is a versatile and scalable python framework for building custom web crawlers. Provide rich ft for extracting structuered data from websited, handling complex crawling scenearion, and automating data
+processing. Its flexibility makes it ideal tailored reconnaissance tasks.
+4. Apache Nutch (Scalable Crawler): is  highly extensible and scalable open-source web crawler written in Java. It's designed to handle massive crawls  acrooss the entire web or focus on specific
+domains.
+
+## Scrapy:
+Reconspider --> `python3 Reconspider url`, output the json result and we can see the list of the results.
+
+## Search engine dicovery:
+Beyonf their primary funtions of answering queireies, search engines also hold a treasure trove of data that can be invaluable for web reconnaissance and information gathering.
+At its core, search discovery leverages the immense power of search algotithms to extract data that may o be readilu visible on websites.
+- Why Search Engine dicovery Matters:
+    - Open Sources: The information gathered is publicly accesible, making it legal and ethical way gain insighs into a target.
+    - Breadth of information: Serch enginies indeddx a vast portion od the web, offering a wide range of portential information sources.
+    - Ease of Use: Search enginies are user-friendly and requieres no specialised tech skills.
+    - Cost-Effective: It's free and readily avaliable resource for information gathering.
+The information u can pull together form Search Engine can be applied in several different ways as well.
+    - Security Assesment: Identifying vulnerabilities, exposed data, and potential attacks vectors.
+    - Competitive Intelligence: Gathering information about competitors products, services, and strategies.
+    - Investigate Journalism: Uncovering hidden connection, finanacial trasactions, and unethical practice.
+    - Threat Intelligence: Identifying emerging threats, tracking malicius actors, and predicing portencial attacks.
+
+- Search Operators:
+![Operators](../Img/Operators.png)
+![Operators ](../Img/operators2.png)
+
+- Google dorking: Is also as google hacking, is a tech that leverges the power of search operators to uncover sensitive information, security vulnerabilities or hidden content
+on the website.
+Some common examples [google hacking database](https://www.exploit-db.com/google-hacking-database):
+    - Finding login pages:
+        - site:example.com inurl: login
+        - site:example.com (inurl: login OR inurl: admin)
+    - Identifying Exposed Files:
+        - site:example.com filetype:pdf
+        - site:example.com (filetype:xls OR filetype:docx)
+    - Uncovering configuration files:
+        - site: example.com inurl:config.php
+        - site:example.com (ext:conf OR ext:cnf) (searches for extensions commonly used for configuration files)
+    - Locating Database backup:
+        - site: example.com inurl:backup
+        - site: example.com filetype:sql
+
+# Web archives:
+Webisite come and go, leabing fleting traces od their existence behind. [Internet Arcive's Wayback Machine](https://web.archive.org/)
+- How does the Wayback Machine Work:
+
+Operates by using web crawler to capture snapshots of website at regular interval automatically, these crawler navigate through the web, following links na d indexing pages, much like how search
+engine crawlers work.
+![Schema](https://mermaid.ink/svg/pako:eNpNjkEOgjAQRa_SzBou0IUJ4lI3uqQsJu1IG2lLhlZjCHe3YGLc_f9m8vMW0NEQSBgYJyvOVxWarmV8jS4Mvajrgzh2DWvrnhtQ4b_t57ZrtKZ53gBU4Ik9OlMWFxWEUJAseVIgSzTIDwUqrOUPc4q3d9AgE2eqgGMeLMg7jnNpeTKY6OSwaPkfJeNS5MtXePdeP1LGQQs)
+
+1. Crawling: Employs automate web crawlers, often called "bots", to browse the internet systematically. These bots follow the links form onw website to another, like how
+would click hyperlink to explotre a website. Intead of just reading the content, these bots dowload copies of the webpages they encounters.
+2. Archiving: Each capute webpage is linked to a specific date and time, creating snapshots os the website at that moment. This archiving process happens at regular intervals, somotimes daily, or monthy.
+3. Accessing: User can access these archived snapshots through the wayback machine interface, enter the URL.
+
+- Why the Wayback Machine matters for web reconnaissance:
+
+1. Uncovering Hidden Assets and vulnerabilities: Allows u to discover old web pages, directories, files, or subdomains that not be accesible on the current website.
+2. Tracking changes and Identifying Patterns: Comparing historical snapshots, u can observe how the website has evolved reveling changes in structure, content, and potencial vulnerabilities.
+3. Gathering Intelligence: Archived content can be valuable source of OSINT, providing insight into the target past activities, marketing, employees, and tech choices.
+4. Stealthy reconnaissance: Accessing archived snapshots it a passive activity that doesen't directly interact with the target's infraestructure, making a less detectable way to gather information.
+
+# Automating Recon:
+This task can significantly enhace and accuracy, allowing u to gather information at scalew and identify potential vulnerabilities more rapidly.
+- Why Automate reconnaissance:
+    - Efficiency: automated tools can perform repetitive tasks much faster than humans, freeing up valuable time for analysis decision-making.
+    - Scalability: Automation allows u to scale reconnaissance efforts across a large number of targerts or domains, uncovering a broader scope infromation.
+    - Consitency: Automated tools follow predefined rules and procedures, ensuring consisitent and reproducible results ans minmising the risk of human error.
+    - Compenhensive coverage: Automation can be programmed to perform a wide range of reconnaissance tasks, including DNS enumeration, subdomain discovery, web crawling, port scanning nad more ensuring through coverage of potential attack vectors.
+    - Integration: Many automation framework allow for ez integration with other tools and plataforms, creating a seamless workflow form reconnaissance to vulnerability Assesment explotation.
+
+## Reconnaissance frameworks:
+1. Finalrecon: Python-based reconnaissance tool offering a range of modules for diff task like SSL certificate checking, whois information gathering, header analysis, and crawling.
+2. Recon-ng: Powerful framework written in py that offer a modular structure with varius modules for diff reconnaissance tasks. Perform DNS enumeration, subdomain discovery, port scanning , web crawling, and even exploit know vulnerabilities.
+3. theHarvester: Specifically designed for gathering mail addr, subdomains, hosts, employee, names, open port, and banners form diff public source like search egines, PGP key servers,m and SHodan databases.
+4. SpiderFoot: open-source intelligence auto tool that integrates with variuous data source to collect information about targets, including IP addr, domain names, mail and social media profiles.
+5. OSINT framework: Collection of varius tools and resources for open-source intelligence gathering. Covers a wide range of information source, including social media, search engines...
+
+- FinalRecon:
+    - Header Information: Reveals sever details, tech used, and potential security misconfiguration.
+    - Whois lookup: Uncovers domain registration details, including registrant infromation and contact details.
+    - SSL Certificate Information: Examine the SSL/TLS certificate for validaty, issuer, and other relevant.
+    - Crawler:
+        - HTML, CSS, JS
+        - Internal/External Link
+        - Image, robots.txt, sitemap.xml
+        - Link in JS
+    - DNS enumeration: Queries over 40 DNS record types, including DMARC records dore mail security assessment.
+    - Subdomain Enumeration: leverages multiple data sources to discover subdomains.
+    - Directory Enumeration: Supp custom wordlist and file extensions to uncover hidden directories and files.
+    - Wayback Machine
+
+### FINALRECON:
+[-h --help] show the help message
+[--url] Specify the target URL
+[--headers] Header information for target url.
+[--sslinfo] Get ssl certificate information for url
+[--whois] Perform a whois lookup
+[--crawl] Crawl the target web
+[--dns] DNS enumeration on the target domain.
+[--sub] Enumerate subdomain
+[--dir] Directories on the targets
+[--wayback] Wayback url
+[--ps] Perform a fast port on target
+[--full] Perform a full reconnaissance scan on the target
+
+```sh
+./finalrecon.py --headers --whois --url http://inlanefreight.com
+ ______  __   __   __   ______   __
+/\  ___\/\ \ /\ "-.\ \ /\  __ \ /\ \
+\ \  __\\ \ \\ \ \-.  \\ \  __ \\ \ \____
+ \ \_\   \ \_\\ \_\\"\_\\ \_\ \_\\ \_____\
+  \/_/    \/_/ \/_/ \/_/ \/_/\/_/ \/_____/
+ ______   ______   ______   ______   __   __
+/\  == \ /\  ___\ /\  ___\ /\  __ \ /\ "-.\ \
+\ \  __< \ \  __\ \ \ \____\ \ \/\ \\ \ \-.  \
+ \ \_\ \_\\ \_____\\ \_____\\ \_____\\ \_\\"\_\
+  \/_/ /_/ \/_____/ \/_____/ \/_____/ \/_/ \/_/
+[>] Created By   : thewhiteh4t
+ |---> Twitter   : https://twitter.com/thewhiteh4t
+ |---> Community : https://twc1rcle.com/
+[>] Version      : 1.1.7
+[+] Target : http://inlanefreight.com
+[+] IP Address : 134.209.24.248
+[!] Headers :
+Date : Wed, 19 Mar 2025 09:44:43 GMT
+Server : Apache/2.4.41 (Ubuntu)
+Link : <https://www.inlanefreight.com/index.php/wp-json/>; rel="https://api.w.org/", <https://www.inlanefreight.com/index.php/wp-json/wp/v2/pages/7>; rel="alternate"; type="application/json", <https://www.inlanefreight.com/>; rel=shortlink
+Vary : Accept-Encoding
+Content-Encoding : gzip
+Content-Length : 5483
+Keep-Alive : timeout=5, max=100
+Connection : Keep-Alive
+Content-Type : text/html; charset=UTF-8
+[!] Whois Lookup :
+   Domain Name: INLANEFREIGHT.COM
+   Registry Domain ID: 2420436757_DOMAIN_COM-VRSN
+   Registrar WHOIS Server: whois.registrar.amazon.com
+   Registrar URL: http://registrar.amazon.com
+   Updated Date: 2024-07-02T22:07:11Z
+   Creation Date: 2019-08-05T22:43:09Z
+   Registry Expiry Date: 2025-08-05T22:43:09Z
+   Registrar: Amazon Registrar, Inc.
+   Registrar IANA ID: 468
+   Registrar Abuse Contact Email: trustandsafety@support.aws.com
+   Registrar Abuse Contact Phone: +1.2024422253
+   Domain Status: clientDeleteProhibited https://icann.org/epp#clientDeleteProhibited
+   Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+   Domain Status: clientUpdateProhibited https://icann.org/epp#clientUpdateProhibited
+   Name Server: NS-1303.AWSDNS-34.ORG
+   Name Server: NS-1580.AWSDNS-05.CO.UK
+   Name Server: NS-161.AWSDNS-20.COM
+   Name Server: NS-671.AWSDNS-19.NET
+   DNSSEC: unsigned
+   URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/
+[+] Completed in 0:00:00.972663
+```
+
+
