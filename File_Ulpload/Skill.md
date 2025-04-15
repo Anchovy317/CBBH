@@ -6,7 +6,7 @@ try to read the source code to find the uploads directory and the naming scheme.
 We can see the can upload the image.
 Fist we upload the payload xml for see the upload.php code:
 
-![payload](.../Img/xmlskillpay.png)
+![payload](../Img/xmlskillpay.png)
 
 we must  decode the in cyberchef:
 
