@@ -1,1 +1,0 @@
-Contract name is not defined.
