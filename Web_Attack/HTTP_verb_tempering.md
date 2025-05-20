@@ -72,3 +72,83 @@ It seems like the web sercer configurations do cover both GET and POST  request.
 The reponse shows Allow: POST,OPTIONS,HEAD,GET, which means that the web server indeed accepts HEAD request, which is def configuration gor may web servers.
 Once we change POST to HEAD and foward the request, we will we no longer get a longlun prompt for a 401 Unauthorized page and get an empty  output instead, as expected with a HEAD request.  We go back to the file manager web app, we will se that all files have inded been deleted, meaning a successfully the Reset functionality without having admin access or any creadentials.
 
+## Bypassing Security Filter:
+The other and more common of HTTP Verb Tampering vulnerability is caused by Insecure Coding errors made during  the development of teh web app, which lead to web app not covering all HTTP methods in certain funtionalities. This is commonly found in security filters that detect malicius requests.
+- Identify:
+In the File MAnager web app, if we try create a new file name with characters in its name, this message shows that the web app uses certainn filters on the back-end to identify injection attempts and then blocks any malicius requests, no metter what we try, the web app properly blocks our requests
+and is secured against injection attempts.
+- Exploit:
+Try and exploit vulnerbility, let's intercept the request in Burp and then use change request to change other, to confirm whether we bypassed the security filter, we need to attempt exploiting the vulnerability the filter is protecting a Command-injection vulnerbility. We cna inject a command that create two files and then check both files are created.
+
+## Verb Tampering:
+After seeing a few ways to exploit Verb tampering vulnerbility, let's see how we can protect ourselves against these types of attacks by preventing Verb Tampering, insecure configuration and insecure coding are what usually introduce Verb Tampering vulnerbility.
+- Insecure Configurations:
+HTTP verb tempering vulnerabilities can occur in most modern web servers, including Apache, Tomcat, and ASP.NET. The vulnerability usually happens when we limit a page's auth to a particular set of HTTP verb/methos.
+The following is an example of a vulnerable configuration for an Apache web server, which is located in the site configuration.
+Example of configuration of apache server:
+```xml
+<Directory "/var/www/html/admin">
+    AuthType Basic
+    AuthName "Admin Panel"
+    AuthUserFile /etc/apache2/.htpasswd
+    <Limit GET>
+        Require valid-user
+    </Limit>613760507
+</Directory>
+```
+As we can see, this configuration is setting the auth configuration for the admin web directory, as the <LIMIT GET> is begin used. The requiered valid user setting will onluy apply to Get request, leving the page through POST request.
+The following example shows the same vulnerability for a Tomacat web server configuration, web.xml file for certain Java web app:
+```xml
+<security-constraint>
+    <web-resource-collection>
+        <url-pattern>/admin/*</url-pattern>
+        <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+        <role-name>admin</role-name>
+    </auth-constraint>
+</security-constraint>
+```
+We can see that the auth is begin limited only to the GET method with http-method, which leaves the page accessible through other HTTP mehthods.
+The following is an example for an ASP.NET configuration found in the web.config file of a web app:
+```xml
+system.web>
+    <authorization>
+        <allow verbs="GET" roles="admin">
+            <deny verbs="GET" users="*">
+        </deny>
+        </allow>
+    </authorization>
+</system.web>
+```
+
+The allow and deny scope is limited to the GET method, which leaves the web app accessible though other HTTP methods. The above examples shows that is si not secure to limit the auth configuration to a spcific HTTP verb. This is why we always avoid restricting auitherization to a particuar http mehtod an
+always  allow/deny all HTTP verbs and methods.
+If we want to specify a single method, we can use safe keywords, like LimitExcept in Apache, http-method-omission in Tomcat, and add/remove in ASP.NET, which cover all verbs except the specified ones.
+We should generally consider disabling/denying all HEAD requests unless specifically required by the web application.
+
+- Insecure Coding:
+While identify and patchinh insecure web server configuration is relatively ez, doing the same for insecure code is much more challeging. This is cuase identify this vulnerablility in the code, we nee to find inconsistence in the use of http parameter across funtions, as in some instances this may lead to unprotected
+funtionalities and filters.
+Conseder the following PHP code form our File Manager exercise:
+```js
+if (isset($_REQUEST['filename'])) {
+    if (!preg_match('/[^A-Za-z0-9. _-]/', $_POST['filename'])) {
+        system("touch " . $_REQUEST['filename']);
+    } else {
+        echo "Malicious Request Denied!";
+    }
+}
+```
+
+If we were only considering Command injection, we would sat that this is securely coded, the preg_match funtions properly looks for unwanted specioal character and does not allow the input to go into the command if any special characters are found. The fatal error made in this case is not due to Command injection but due to
+the incosistent use of HTTP method.
+We see that teh preg_match fileter onlyu checks for special characters in POST parameters with $_POST['filename']. The final sytem command uses the the $_REQUEST['filename'] variable, which covers both GET and POST paramaeter. When we were sending our malicius
+input thorugh a GET requests, it did not get stopped by the preg_match funtions, as th POST parameters were empty and hence did not contain any special characters, once we reach the system funtions, it used any parameters found the request, and out GET parameters
+were used in the command, eventually leading to Command Injection.
+
+To avoid HTTP Verb Tampering Vulnerability in our code, we must be consistent with our use of HTTP methods and ensuere that the same method is always used for any specific funtionality acrros the web app.
+- PHP --> $_REQUEST['param']
+- Jave --> request.getParameter('param')
+- C# --> Request['param']
+
