@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<email>
+    <date>10-10-2023</date>
+    <time>10:00 am UTC</time>
+    <sender>mail@mail.com</sender>
+    <recipients>
+        <to>HR@mail.com</to>
+        <cc>
+            <to>pat@mail.com</to>
+            <to>ter@mail.com</to>
+        </cc>
+
+    </recipients>
+
+    <body>Hello everyone</body>
+</email>
