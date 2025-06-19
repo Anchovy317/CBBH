@@ -82,3 +82,4 @@ s%3AE1zjz94gVYpO9CTQdMQYXrXQ_R4T7_Y6.MZVCsRnA3bRXYbbWJoCijjWz4uqnvahIjWhYBAeLJ0Q
 paste the cookie and find de superadmin:
 
 FLAG{SUCCESS_YOU_PWN3D_US_H0PE_YOU_ENJ0YED}
+https://academy.hackthebox.com/achievement/349590/153
